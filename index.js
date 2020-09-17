@@ -122,11 +122,11 @@ app.get("/showAllStudentsForMentor", async function (req, res) {
     let mentorName = req.body.mentorName;
 
     try {
-        let client = await mongoClient.connect(uri);
+        let client = await MongoClient.connect(uri);
         let db = client.db("assignmentor");
         let students = await db.collection("mentors").find({ "name": mentorName }).toArray();
         client.close();
-        res.send(students);
+        res.send(students[0].students);
     } catch (error) {
         console.log(error)
         res.send(error);
