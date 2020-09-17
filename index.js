@@ -13,7 +13,7 @@ const cors = require("cors");
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(cors({
-    origin: ""
+    origin: "127.0.0.1"
 }));
 
 app.get('/', function (req, res) {
@@ -132,6 +132,65 @@ app.get("/showAllStudentsForMentor", async function (req, res) {
         res.send(error);
     }
 })
+
+// Endpoint to get all student names
+// Type = GET
+app.get("/showAllStudents", async function (req, res) {
+
+    let students = [];
+    try {
+        let client = await MongoClient.connect(uri);
+        let db = client.db("assignmentor");
+        let studentsData = await db.collection("students").find().toArray();
+        studentsData.forEach(element => students.push(element.name));
+        client.close();
+        res.send(students);
+    } catch (error) {
+        console.log(error)
+        res.send(error);
+    }
+})
+
+// Endpoint to get all mentor names
+// Type = GET
+app.get("/showAllMentors", async function (req, res) {
+
+    let mentors = [];
+    try {
+        let client = await MongoClient.connect(uri);
+        let db = client.db("assignmentor");
+        let mentorsData = await db.collection("mentors").find().toArray();
+        mentorsData.forEach(mentor => mentors.push(mentor.name));
+        client.close();
+        res.send(mentors);
+    } catch (error) {
+        console.log(error)
+        res.send(error);
+    }
+})
+
+// Endpoint to get all students without a mentor
+// Type = GET
+app.get("/showAllUnassignedStudents", async function (req, res) {
+
+    let unassignedStudents = [];
+    try {
+        let client = await MongoClient.connect(uri);
+        let db = client.db("assignmentor");
+        let studentsData = await db.collection("mentors").find().toArray();
+        studentsData.forEach(student => {
+            if(student.mentor == ""){
+            unassignedStudents.push(student.name)
+        }});
+        client.close();
+        res.send(unassignedStudents);
+    } catch (error) {
+        console.log(error)
+        res.send(error);
+    }
+})
+
+
 
 // start the server with specified port
 // handle dynamic port binding by heroku using process.env.PORT
