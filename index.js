@@ -118,9 +118,9 @@ app.put("/changeMentorForStudent", async function (req, res) {
 
 // Endpoint to get all students for a particular mentor
 // Type = GET
-app.get("/showAllStudentsForMentor", async function (req, res) {
+app.get("/showAllStudentsForMentor/:mentorName", async function (req, res) {
 
-    let mentorName = req.body.mentorName;
+    let mentorName = req.params.mentorName;
 
     try {
         let client = await MongoClient.connect(uri);
