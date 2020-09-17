@@ -12,8 +12,9 @@ const cors = require("cors");
 
 app.use(express.json());
 app.use(bodyParser.json());
+// https://focused-raman-c5ce86.netlify.app/
 app.use(cors({
-    origin: "127.0.0.1"
+    origin: "https://focused-raman-c5ce86.netlify.app"
 }));
 
 app.get('/', function (req, res) {
