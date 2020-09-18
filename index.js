@@ -182,7 +182,7 @@ app.get("/showAllUnassignedStudents", async function (req, res) {
     try {
         let client = await MongoClient.connect(uri);
         let db = client.db("assignmentor");
-        let studentsData = await db.collection("mentors").find().toArray();
+        let studentsData = await db.collection("students").find().toArray();
         studentsData.forEach(student => {
             if(student.mentor == ""){
             unassignedStudents.push(student.name)
