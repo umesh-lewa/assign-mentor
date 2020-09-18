@@ -62,8 +62,8 @@ app.post('/createStudent', async function (req, res) {
             "mentor": ""
         });
         client.close();
-        console.log("successfully inserted mentor");
-        res.send("successfully inserted mentor");
+        console.log("successfully inserted student");
+        res.send("successfully inserted student");
     } catch (err) {
         console.log(err);
         res.send(err);
