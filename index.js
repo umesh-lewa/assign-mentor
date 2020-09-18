@@ -86,6 +86,7 @@ app.put("/assignStudentsToMentor", async function (req, res) {
         );
         client.close();
         console.log("Updated students for mentor");
+        res.setHeader('Access-Control-Allow-Origin', '*');
         res.json("Updated students for mentor")
     } catch (error) {
         console.log(error)
@@ -109,6 +110,7 @@ app.put("/changeMentorForStudent", async function (req, res) {
         );
         client.close();
         console.log("Updated mentor");
+        res.setHeader('Access-Control-Allow-Origin', '*');
         res.json("Updated mentor")
     } catch (error) {
         console.log(error)
