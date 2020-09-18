@@ -14,7 +14,8 @@ app.use(express.json());
 app.use(bodyParser.json());
 // https://focused-raman-c5ce86.netlify.app/
 app.use(cors({
-    origin: "https://focused-raman-c5ce86.netlify.app"
+    origin: "https://focused-raman-c5ce86.netlify.app",
+    methods: ["GET","POST","PUT"]
 }));
 
 app.get('/', function (req, res) {
@@ -86,8 +87,8 @@ app.put("/assignStudentsToMentor", async function (req, res) {
         );
         client.close();
         console.log("Updated students for mentor");
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH');
+        //res.setHeader('Access-Control-Allow-Origin', '*');
+        //res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH');
         res.json("Updated students for mentor")
     } catch (error) {
         console.log(error)
@@ -111,8 +112,8 @@ app.put("/changeMentorForStudent", async function (req, res) {
         );
         client.close();
         console.log("Updated mentor");
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH');
+        //res.setHeader('Access-Control-Allow-Origin', '*');
+        //res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH');
         res.json("Updated mentor")
     } catch (error) {
         console.log(error)
