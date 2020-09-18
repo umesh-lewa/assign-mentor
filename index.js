@@ -52,13 +52,13 @@ app.post('/createMentor', async function (req, res) {
 // Type = POST
 app.post('/createStudent', async function (req, res) {
 
-    let studentName = req.body.studentName;
+    let student = req.body.studentName;
 
     try {
         let client = await MongoClient.connect(uri);
         let db = client.db("assignmentor");
         let insertedStudent = await db.collection("students").insertOne({
-            "name": studentName,
+            "name": student,
             "mentor": ""
         });
         client.close();
