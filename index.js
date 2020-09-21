@@ -117,7 +117,7 @@ app.put("/changeMentorForStudent", async function (req, res) {
         console.log("Updated mentor");
         //res.setHeader('Access-Control-Allow-Origin', '*');
         //res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH');
-        res.json("Updated mentor")
+        res.json("Updated mentor");
     } catch (error) {
         console.log(error)
         res.json(error);
