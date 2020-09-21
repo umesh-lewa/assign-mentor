@@ -84,9 +84,21 @@ app.put("/assignStudentsToMentor", async function (req, res) {
     try {
         let client = await MongoClient.connect(uri);
         let db = client.db("assignmentor");
+        /*
         let mentor = await db.collection("mentors").findOneAndUpdate(
             { "name": mentorName },
             { $set: { "students": students } }
+        );
+        */
+        students.forEach(eachStudent => {
+            let eachStudentMentor = db.collection("students").findOneAndUpdate(
+                { "name": eachStudent },
+                { $set: { "mentor": mentorName } }
+            );
+        });
+        let student = await db.collection("mentors").findOneAndUpdate(
+            { "name": mentorName },
+            { $push: { "students": { $each: students } } }
         );
         client.close();
         console.log("Updated students for mentor");
@@ -109,9 +121,21 @@ app.put("/changeMentorForStudent", async function (req, res) {
     try {
         let client = await MongoClient.connect(uri);
         let db = client.db("assignmentor");
+        let oldMentorName = await db.collection("students").findOne(
+            { "name": studentName },
+            { "mentor": 1 }
+        );
+        let oldMentor = await db.collection("mentors").findOneAndUpdate(
+            { "name": oldMentorName },
+            { $pull: { "students": studentName } }
+        );
         let student = await db.collection("students").findOneAndUpdate(
             { "name": studentName },
-            { $set: { "mentor": req.body.newMentorName } }
+            { $set: { "mentor": newMentorName } }
+        );
+        let newMentor = await db.collection("mentors").findOneAndUpdate(
+            { "name": newMentorName },
+            { $push: { "students": studentName } }
         );
         client.close();
         console.log("Updated mentor");
@@ -188,9 +212,10 @@ app.get("/showAllUnassignedStudents", async function (req, res) {
         let db = client.db("assignmentor");
         let studentsData = await db.collection("students").find().toArray();
         studentsData.forEach(student => {
-            if(student.mentor == ""){
-            unassignedStudents.push(student.name)
-        }});
+            if (student.mentor == "") {
+                unassignedStudents.push(student.name)
+            }
+        });
         client.close();
         res.send(unassignedStudents);
     } catch (error) {
